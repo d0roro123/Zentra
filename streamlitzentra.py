@@ -20,25 +20,45 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
-        color: #333;
+        color: #333; /* Default text color for the entire app */
     }
     .stApp {
-        background-color: #f3f4f6;
+        background-color: #f3f4f6; /* Light gray background for the main app */
     }
-    .main .block-container {
-        max-width: 1200px;
-        padding-top: 2rem;
-        padding-right: 2rem;
-        padding-left: 2rem;
-        padding-bottom: 2rem;
-    }
-    .css-1d391kg, .css-1dp5dkx { /* target sidebar and main container */
-        background-color: #ffffff;
+    /* Ensure the main content block and sidebar background are white and text is dark */
+    .main .block-container, .st-emotion-cache-1d391kg, .st-emotion-cache-1dp5dkx {
+        background-color: #ffffff !important;
         border-radius: 12px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         padding: 24px;
         margin-bottom: 24px;
+        color: #333 !important; /* Ensure text inside these blocks is dark */
     }
+    /* Specific overrides for common Streamlit text elements */
+    .stMarkdown, .stText, .stAlert p, .stAlert div, .stInfo, .stSuccess, .stWarning, .stError, .stSpinner span {
+        color: #333 !important;
+    }
+    /* Specific overrides for alert backgrounds and text colors */
+    .stAlert.st-emotion-cache-1f81d1e.e1p86y231 { /* General alert styling */
+        border-radius: 10px;
+    }
+    .stAlert.st-emotion-cache-1f81d1e.e1p86y231[kind="info"] {
+        background-color: #e0f2f7 !important; /* light blue for info */
+        color: #0c4a6e !important; /* dark blue for info text */
+    }
+    .stAlert.st-emotion-cache-1f81d1e.e1p86y231[kind="success"] {
+        background-color: #d1fae5 !important; /* light green for success */
+        color: #065f46 !important; /* dark green for success text */
+    }
+    .stAlert.st-emotion-cache-1f81d1e.e1p86y231[kind="warning"] {
+        background-color: #fef3c7 !important; /* light yellow for warning */
+        color: #92400e !important; /* dark yellow for warning text */
+    }
+    .stAlert.st-emotion-cache-1f81d1e.e1p86y231[kind="error"] {
+        background-color: #fee2e2 !important; /* light red for error */
+        color: #991b1b !important; /* dark red for error text */
+    }
+
     h1 {
         font-size: 2.25rem; /* text-4xl */
         font-weight: 700; /* font-bold */
@@ -77,13 +97,23 @@ st.markdown("""
         color: #fff;
         text-decoration: none;
     }
+    /* Style for the secondary button (Reset Filters and Download PDF) */
+    .stButton[data-testid="stSidebar"] > button[kind="secondary"],
+    .stButton > button[kind="secondary"] {
+        background-image: none !important; /* Remove gradient */
+        background-color: #6b7280 !important; /* Tailwind gray-500 */
+        color: white !important; /* White text for secondary button */
+        box-shadow: 0 0 20px #ccc !important;
+    }
+    .stButton[data-testid="stSidebar"] > button[kind="secondary"]:hover,
+    .stButton > button[kind="secondary"]:hover {
+        background-color: #4b5563 !important; /* Tailwind gray-600 on hover */
+        color: white !important;
+    }
     .stPlotlyChart {
         border-radius: 12px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         overflow: hidden;
-    }
-    .stAlert {
-        border-radius: 10px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -95,6 +125,9 @@ if 'filtered_data' not in st.session_state:
     st.session_state.filtered_data = pd.DataFrame()
 if 'data_cleaned_success' not in st.session_state:
     st.session_state.data_cleaned_success = False
+if 'analysis_output' not in st.session_state:
+    st.session_state.analysis_output = '<p class="text-gray-500">Click a button above to generate the analysis.</p>'
+
 
 st.title("Interactive Media Intelligence Dashboard")
 
@@ -191,21 +224,11 @@ if not st.session_state.all_data.empty:
         selected_location = st.sidebar.selectbox("Location:", locations)
 
     # Date filters
-    min_date = st.session_state.all_data['Date'].min() if not st.session_state.all_data.empty else datetime.today()
-    max_date = st.session_state.all_data['Date'].max() if not st.session_state.all_data.empty else datetime.today()
+    min_date_data = st.session_state.all_data['Date'].min()
+    max_date_data = st.session_state.all_data['Date'].max()
 
-    default_start_date = min_date
-    default_end_date = max_date
-
-    # Ensure default dates are valid dates before passing
-    if pd.isna(default_start_date):
-        default_start_date = datetime.today().date()
-    if pd.isna(default_end_date):
-        default_end_date = datetime.today().date()
-    else:
-        # Convert pandas Timestamp to Python datetime.date
-        default_start_date = default_start_date.date()
-        default_end_date = default_end_date.date()
+    default_start_date = min_date_data.date() if pd.notna(min_date_data) else datetime.today().date()
+    default_end_date = max_date_data.date() if pd.notna(max_date_data) else datetime.today().date()
 
     st.sidebar.markdown("---")
     st.sidebar.subheader("Date Range")
@@ -216,8 +239,9 @@ if not st.session_state.all_data.empty:
     # Engagement filters
     st.sidebar.markdown("---")
     st.sidebar.subheader("Engagements Range")
+    max_engagements_data = int(st.session_state.all_data['Engagements'].max()) if not st.session_state.all_data.empty else 10000
     filter_min_engagements = st.sidebar.number_input("Min Engagements:", min_value=0, value=0)
-    filter_max_engagements = st.sidebar.number_input("Max Engagements:", min_value=0, value=int(st.session_state.all_data['Engagements'].max()) + 1 if not st.session_state.all_data.empty else 10000)
+    filter_max_engagements = st.sidebar.number_input("Max Engagements:", min_value=0, value=max_engagements_data)
 
     # Apply Filters button
     if st.sidebar.button("Apply Filters"):
@@ -256,7 +280,7 @@ if not st.session_state.all_data.empty:
             st.session_state.filtered_data = pd.DataFrame() # Ensure filtered_data is empty if no match
 
     # Reset Filters button
-    if st.sidebar.button("Reset Filters"):
+    if st.sidebar.button("Reset Filters", type="secondary"):
         st.session_state.filtered_data = st.session_state.all_data.copy()
         st.sidebar.success("Filters reset!")
         st.info("No filters applied.")
