@@ -67,23 +67,25 @@ st.markdown("""
         color: #000000 !important; /* pure black for error text */
     }
 
+    /* Make all headings black */
+    h1, h2, h3 {
+        color: #000000 !important; /* Pure black for all headings */
+    }
+
     h1 {
         font-size: 2.25rem; /* text-4xl */
         font-weight: 700; /* font-bold */
         text-align: center;
-        color: #1a202c; /* gray-800, still a dark gray for headings */
         margin-bottom: 2rem; /* mb-8 */
     }
     h2 {
         font-size: 1.5rem; /* text-2xl */
         font-weight: 600; /* font-semibold */
-        color: #2d3748; /* gray-700, still a dark gray for subheadings */
         margin-bottom: 1rem; /* mb-4 */
     }
     h3 {
         font-size: 1.25rem; /* text-xl */
         font-weight: 500; /* font-medium */
-        color: #2d3748; /* gray-700, still a dark gray for sub-subheadings */
         margin-bottom: 0.75rem; /* mb-3 */
     }
     .stButton > button {
@@ -134,7 +136,7 @@ if 'filtered_data' not in st.session_state:
 if 'data_cleaned_success' not in st.session_state:
     st.session_state.data_cleaned_success = False
 if 'analysis_output' not in st.session_state:
-    st.session_state.analysis_output = '<p style="color:#6b7280;">Click a button above to generate the analysis.</p>'
+    st.session_state.analysis_output = '<p style="color:#000000;">Click a button above to generate the analysis.</p>'
 
 
 st.title("Interactive Media Intelligence Dashboard")
@@ -310,6 +312,7 @@ if not st.session_state.all_data.empty:
         fig_sentiment = px.pie(sentiment_counts, values='Count', names='Sentiment',
                                title='Sentiment Breakdown',
                                color_discrete_sequence=px.colors.qualitative.Pastel)
+        fig_sentiment.update_layout(title_font_color="#000000") # Make chart title black
         st.plotly_chart(fig_sentiment, use_container_width=True)
 
         st.markdown("#### Top 3 Insights:")
@@ -337,6 +340,7 @@ if not st.session_state.all_data.empty:
                                  title='Engagement Trend Over Time',
                                  line_shape='spline', markers=True,
                                  color_discrete_sequence=['#3B82F6'])
+        fig_engagement.update_layout(title_font_color="#000000") # Make chart title black
         st.plotly_chart(fig_engagement, use_container_width=True)
 
         st.markdown("#### Top 3 Insights:")
@@ -366,6 +370,7 @@ if not st.session_state.all_data.empty:
         fig_platform = px.bar(platform_engagements, x='Platform', y='Engagements',
                               title='Platform Engagements',
                               color_discrete_sequence=['#6366F1'])
+        fig_platform.update_layout(title_font_color="#000000") # Make chart title black
         st.plotly_chart(fig_platform, use_container_width=True)
 
         st.markdown("#### Top 3 Insights:")
@@ -391,6 +396,7 @@ if not st.session_state.all_data.empty:
         fig_media_type = px.pie(media_type_counts, values='Count', names='Media Type',
                                 title='Media Type Mix',
                                 color_discrete_sequence=px.colors.qualitative.Safe)
+        fig_media_type.update_layout(title_font_color="#000000") # Make chart title black
         st.plotly_chart(fig_media_type, use_container_width=True)
 
         st.markdown("#### Top 3 Insights:")
@@ -417,6 +423,7 @@ if not st.session_state.all_data.empty:
         fig_location = px.bar(location_engagements, x='Location', y='Engagements',
                               title='Top 5 Locations by Engagement',
                               color_discrete_sequence=['#DC2626'])
+        fig_location.update_layout(title_font_color="#000000") # Make chart title black
         st.plotly_chart(fig_location, use_container_width=True)
 
         st.markdown("#### Top 3 Insights:")
@@ -606,7 +613,7 @@ if not st.session_state.all_data.empty:
         st.markdown("### Analysis Output")
         st.markdown(st.session_state.analysis_output)
     else:
-        st.markdown('<p style="color:#6b7280;">Click a button above to generate the analysis.</p>', unsafe_allow_html=True)
+        st.markdown('<p style="color:#000000;">Click a button above to generate the analysis.</p>', unsafe_allow_html=True)
 
 
     st.markdown("---") # Separator
