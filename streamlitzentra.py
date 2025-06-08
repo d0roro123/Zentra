@@ -38,7 +38,7 @@ st.markdown("""
     /* Sidebar background (various possible Streamlit classes for sidebar) */
     .st-emotion-cache-1d391kg, .st-emotion-cache-1dp5dkx, .st-emotion-cache-1kyxreq,
     .st-emotion-cache-1ajxchx /* Another common sidebar container class */ {
-        background-color: #e5e5e5 !important; /* Sidebar background - grey-ish white */
+        background-color: #f0f0f0 !important; /* Sidebar background - light grey */
         border-radius: 12px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         padding: 24px;
@@ -165,6 +165,7 @@ def clean_data(df):
     - Converts 'Date' to datetime objects.
     - Fills missing 'Engagements' with 0.
     - Normalizes column names (handles minor variations).
+    - Ensures essential columns are handled for missing/empty values.
     """
     if df.empty:
         return pd.DataFrame()
@@ -183,6 +184,12 @@ def clean_data(df):
     for col in required_cols:
         if col not in df.columns:
             df[col] = 'Unknown'
+        else:
+            # Convert to string, strip whitespace, and replace empty strings/NaN with 'Unknown'
+            # .astype(str) converts all values to string to handle mixed types before stripping
+            # .replace(np.nan, '') handles actual NaN values from pandas
+            df[col] = df[col].astype(str).replace('nan', '').str.strip()
+            df.loc[df[col] == '', col] = 'Unknown' # Replace actual empty strings with 'Unknown'
 
     # Convert 'Date' to datetime, coercing errors to NaT
     df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
