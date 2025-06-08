@@ -20,14 +20,14 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
-        color: #000000; /* Default text color for the entire app - now pure black */
+        color: #000000; /* Default text color for the entire app - pure black */
     }
     .stApp {
-        background-color: #c0c0c0; /* Grey-ish background for the main app */
+        background-color: #ffffff; /* Main app background - now white */
     }
-    /* Ensure the main content block and sidebar background are white and text is dark */
-    .main .block-container, .st-emotion-cache-1d391kg, .st-emotion-cache-1dp5dkx, .st-emotion-cache-1kyxreq /* Targeting various potential main/sidebar containers */ {
-        background-color: #ffffff !important;
+    /* Ensure the main content block background is white and sidebar background is slightly grey-ish */
+    .main .block-container {
+        background-color: #ffffff !important; /* Main content blocks are white */
         border-radius: 12px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         padding: 24px;
@@ -35,8 +35,20 @@ st.markdown("""
         color: #000000 !important; /* Ensure text inside these blocks is pure black */
     }
 
-    /* Universal text color for content within the main content area */
-    .main .block-container *, .st-emotion-cache-1d391kg *, .st-emotion-cache-1dp5dkx *, .st-emotion-cache-1kyxreq * {
+    /* Sidebar background (various possible Streamlit classes for sidebar) */
+    .st-emotion-cache-1d391kg, .st-emotion-cache-1dp5dkx, .st-emotion-cache-1kyxreq,
+    .st-emotion-cache-1ajxchx /* Another common sidebar container class */ {
+        background-color: #e5e5e5 !important; /* Sidebar background - grey-ish white */
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        padding: 24px;
+        margin-bottom: 24px;
+        color: #000000 !important; /* Ensure text inside sidebar is pure black */
+    }
+
+
+    /* Universal text color for content within the main content area and sidebar */
+    .main .block-container *, .st-emotion-cache-1d391kg *, .st-emotion-cache-1dp5dkx *, .st-emotion-cache-1kyxreq *, .st-emotion-cache-1ajxchx * {
         color: #000000 !important; /* Force pure black text for almost everything inside */
     }
 
@@ -625,7 +637,7 @@ if not st.session_state.all_data.empty:
 # Branding Footer
 st.markdown(
     """
-    <div style="width:100%; text-align:center; padding-top:20px; color:#6b7280; font-size:0.875rem;">
+    <div style="width:100%; text-align:center; padding-top:20px; color:#000000; font-size:0.875rem;">
         <p>Powered by Gemini AI</p>
         <p>&copy; Media Intelligence - Hafizhan Izzuddin Iman (2025)</p>
     </div>
