@@ -23,10 +23,10 @@ st.markdown("""
         color: #333; /* Default text color for the entire app */
     }
     .stApp {
-        background-color: #f3f4f6; /* Light gray background for the main app */
+        background-color: #e0e0e0; /* Slightly darker light gray for the main app background */
     }
     /* Ensure the main content block and sidebar background are white and text is dark */
-    .main .block-container, .st-emotion-cache-1d391kg, .st-emotion-cache-1dp5dkx {
+    .main .block-container, .st-emotion-cache-1d391kg, .st-emotion-cache-1dp5dkx, .st-emotion-cache-1kyxreq /* Targeting various potential main/sidebar containers */ {
         background-color: #ffffff !important;
         border-radius: 12px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -34,27 +34,35 @@ st.markdown("""
         margin-bottom: 24px;
         color: #333 !important; /* Ensure text inside these blocks is dark */
     }
-    /* Specific overrides for common Streamlit text elements */
-    .stMarkdown, .stText, .stAlert p, .stAlert div, .stInfo, .stSuccess, .stWarning, .stError, .stSpinner span {
+
+    /* Universal text color for content within the main content area */
+    .main .block-container *, .st-emotion-cache-1d391kg *, .st-emotion-cache-1dp5dkx *, .st-emotion-cache-1kyxreq * {
+        color: #333 !important; /* Force dark text for almost everything inside */
+    }
+
+    /* Specific overrides for common Streamlit text elements that might default to lighter colors */
+    .stMarkdown, .stText, .stAlert p, .stAlert div, .stInfo, .stSuccess, .stWarning, .stError, .stSpinner span,
+    .stDataFrame, .stTable, .stSelectbox label, .stNumberInput label, .stDateInput label {
         color: #333 !important;
     }
+
     /* Specific overrides for alert backgrounds and text colors */
-    .stAlert.st-emotion-cache-1f81d1e.e1p86y231 { /* General alert styling */
+    .stAlert { /* General alert styling */
         border-radius: 10px;
     }
-    .stAlert.st-emotion-cache-1f81d1e.e1p86y231[kind="info"] {
+    .stAlert[kind="info"] {
         background-color: #e0f2f7 !important; /* light blue for info */
         color: #0c4a6e !important; /* dark blue for info text */
     }
-    .stAlert.st-emotion-cache-1f81d1e.e1p86y231[kind="success"] {
+    .stAlert[kind="success"] {
         background-color: #d1fae5 !important; /* light green for success */
         color: #065f46 !important; /* dark green for success text */
     }
-    .stAlert.st-emotion-cache-1f81d1e.e1p86y231[kind="warning"] {
+    .stAlert[kind="warning"] {
         background-color: #fef3c7 !important; /* light yellow for warning */
         color: #92400e !important; /* dark yellow for warning text */
     }
-    .stAlert.st-emotion-cache-1f81d1e.e1p86y231[kind="error"] {
+    .stAlert[kind="error"] {
         background-color: #fee2e2 !important; /* light red for error */
         color: #991b1b !important; /* dark red for error text */
     }
@@ -126,7 +134,7 @@ if 'filtered_data' not in st.session_state:
 if 'data_cleaned_success' not in st.session_state:
     st.session_state.data_cleaned_success = False
 if 'analysis_output' not in st.session_state:
-    st.session_state.analysis_output = '<p class="text-gray-500">Click a button above to generate the analysis.</p>'
+    st.session_state.analysis_output = '<p style="color:#6b7280;">Click a button above to generate the analysis.</p>'
 
 
 st.title("Interactive Media Intelligence Dashboard")
@@ -598,7 +606,7 @@ if not st.session_state.all_data.empty:
         st.markdown("### Analysis Output")
         st.markdown(st.session_state.analysis_output)
     else:
-        st.markdown('<p class="text-gray-500">Click a button above to generate the analysis.</p>', unsafe_allow_html=True)
+        st.markdown('<p style="color:#6b7280;">Click a button above to generate the analysis.</p>', unsafe_allow_html=True)
 
 
     st.markdown("---") # Separator
