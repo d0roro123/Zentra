@@ -20,7 +20,7 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
-        color: #333; /* Default text color for the entire app */
+        color: #000000; /* Default text color for the entire app - now pure black */
     }
     .stApp {
         background-color: #e0e0e0; /* Slightly darker light gray for the main app background */
@@ -32,18 +32,18 @@ st.markdown("""
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         padding: 24px;
         margin-bottom: 24px;
-        color: #333 !important; /* Ensure text inside these blocks is dark */
+        color: #000000 !important; /* Ensure text inside these blocks is pure black */
     }
 
     /* Universal text color for content within the main content area */
     .main .block-container *, .st-emotion-cache-1d391kg *, .st-emotion-cache-1dp5dkx *, .st-emotion-cache-1kyxreq * {
-        color: #333 !important; /* Force dark text for almost everything inside */
+        color: #000000 !important; /* Force pure black text for almost everything inside */
     }
 
     /* Specific overrides for common Streamlit text elements that might default to lighter colors */
     .stMarkdown, .stText, .stAlert p, .stAlert div, .stInfo, .stSuccess, .stWarning, .stError, .stSpinner span,
     .stDataFrame, .stTable, .stSelectbox label, .stNumberInput label, .stDateInput label {
-        color: #333 !important;
+        color: #000000 !important;
     }
 
     /* Specific overrides for alert backgrounds and text colors */
@@ -52,38 +52,38 @@ st.markdown("""
     }
     .stAlert[kind="info"] {
         background-color: #e0f2f7 !important; /* light blue for info */
-        color: #0c4a6e !important; /* dark blue for info text */
+        color: #000000 !important; /* pure black for info text */
     }
     .stAlert[kind="success"] {
         background-color: #d1fae5 !important; /* light green for success */
-        color: #065f46 !important; /* dark green for success text */
+        color: #000000 !important; /* pure black for success text */
     }
     .stAlert[kind="warning"] {
         background-color: #fef3c7 !important; /* light yellow for warning */
-        color: #92400e !important; /* dark yellow for warning text */
+        color: #000000 !important; /* pure black for warning text */
     }
     .stAlert[kind="error"] {
         background-color: #fee2e2 !important; /* light red for error */
-        color: #991b1b !important; /* dark red for error text */
+        color: #000000 !important; /* pure black for error text */
     }
 
     h1 {
         font-size: 2.25rem; /* text-4xl */
         font-weight: 700; /* font-bold */
         text-align: center;
-        color: #1a202c; /* gray-800 */
+        color: #1a202c; /* gray-800, still a dark gray for headings */
         margin-bottom: 2rem; /* mb-8 */
     }
     h2 {
         font-size: 1.5rem; /* text-2xl */
         font-weight: 600; /* font-semibold */
-        color: #2d3748; /* gray-700 */
+        color: #2d3748; /* gray-700, still a dark gray for subheadings */
         margin-bottom: 1rem; /* mb-4 */
     }
     h3 {
         font-size: 1.25rem; /* text-xl */
         font-weight: 500; /* font-medium */
-        color: #2d3748; /* gray-700 */
+        color: #2d3748; /* gray-700, still a dark gray for sub-subheadings */
         margin-bottom: 0.75rem; /* mb-3 */
     }
     .stButton > button {
@@ -120,7 +120,7 @@ st.markdown("""
     }
     .stPlotlyChart {
         border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        box_shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         overflow: hidden;
     }
 </style>
