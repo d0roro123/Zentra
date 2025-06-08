@@ -23,7 +23,7 @@ st.markdown("""
         color: #000000; /* Default text color for the entire app - now pure black */
     }
     .stApp {
-        background-color: #e0e0e0; /* Slightly darker light gray for the main app background */
+        background-color: #c0c0c0; /* Grey-ish background for the main app */
     }
     /* Ensure the main content block and sidebar background are white and text is dark */
     .main .block-container, .st-emotion-cache-1d391kg, .st-emotion-cache-1dp5dkx, .st-emotion-cache-1kyxreq /* Targeting various potential main/sidebar containers */ {
